@@ -4,6 +4,7 @@ import random
 
 
 def brute_force(problem):
+
     best_solution = None
     best_objective_value = float('inf')
 
@@ -17,7 +18,6 @@ def brute_force(problem):
     return best_solution, best_objective_value
 
 
-# Przykładowe użycie:
 if __name__ == "__main__":
     numbers = [random.randint(1, 100) for _ in range(9)]
     problem = ThreePartitionProblem(numbers)

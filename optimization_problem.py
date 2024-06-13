@@ -1,4 +1,3 @@
-import numpy as np
 import random
 
 class ThreePartitionProblem:
@@ -26,9 +25,16 @@ class ThreePartitionProblem:
                         neighbors.append(neighbor)
         return neighbors
 
-# Przykładowe użycie:
+    def get_random_neighbor(self, solution):
+        neighbor = [list(group) for group in solution]
+        group1, group2 = random.sample(range(len(solution)), 2)
+        index1, index2 = random.randint(0, 2), random.randint(0, 2)
+        neighbor[group1][index1], neighbor[group2][index2] = neighbor[group2][index2], neighbor[group1][index1]
+        return neighbor
+
+
 if __name__ == "__main__":
-    numbers = [random.randint(1, 100) for _ in range(9)]  # Przykładowe liczby
+    numbers = [random.randint(1, 100) for _ in range(9)]
     problem = ThreePartitionProblem(numbers)
     initial_solution = problem.generate_random_solution()
     print("Initial Solution:", initial_solution)
