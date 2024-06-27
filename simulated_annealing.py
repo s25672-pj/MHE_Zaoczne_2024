@@ -13,6 +13,7 @@ def simulated_annealing(problem, initial_temperature, cooling_rate, min_temperat
     best_solution = current_solution
     best_objective_value = current_objective_value
 
+    convergence_curve = []
     t = 0
     while temperature(t) > min_temperature and t < max_iterations:
         neighbor = problem.get_random_neighbor(current_solution)
@@ -28,15 +29,16 @@ def simulated_annealing(problem, initial_temperature, cooling_rate, min_temperat
                 best_solution = current_solution
                 best_objective_value = current_objective_value
 
+        convergence_curve.append(best_objective_value)
         t += 1
 
-    return best_solution, best_objective_value
+    return best_solution, best_objective_value, convergence_curve
 
 
 if __name__ == "__main__":
     numbers = [random.randint(1, 100) for _ in range(9)]
     problem = ThreePartitionProblem(numbers)
-    best_solution, best_objective_value = simulated_annealing(problem, initial_temperature=100, cooling_rate=0.99, min_temperature=0.1, max_iterations=1000)
+    best_solution, best_objective_value, convergence_curve = simulated_annealing(problem, initial_temperature=100, cooling_rate=0.99, min_temperature=0.1, max_iterations=1000)
     print("Best Solution:", best_solution)
     print("Best Objective value:", best_objective_value)
 

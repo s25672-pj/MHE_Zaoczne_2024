@@ -12,7 +12,7 @@ def genetic_algorithm(problem, population_size, generations, crossover_rate, mut
                       crossover_method, mutation_method, termination_method):
     population = [problem.generate_random_solution() for _ in range(population_size)]
     fitness = evaluate_population(problem, population)
-    best_solution = population[np.argmin(fitness)]
+    # best_solution = population[np.argmin(fitness)]
     best_value = min(fitness)
     no_improvement = 0
 
@@ -58,7 +58,7 @@ def genetic_algorithm(problem, population_size, generations, crossover_rate, mut
         current_best = population[np.argmin(fitness)]
 
         if current_best_value < best_value:
-            best_solution = current_best
+            # best_solution = current_best
             best_value = current_best_value
             no_improvement = 0
         else:
@@ -66,7 +66,8 @@ def genetic_algorithm(problem, population_size, generations, crossover_rate, mut
 
         convergence_curve.append(best_value)
 
-        if termination_method == "no_improvement" and no_improvement >= 100:
+        if (termination_method == "no_improvement" and no_improvement >= 100) or \
+                (termination_method == "generations" and generation >= generations - 1):
             break
 
     return population, fitness, convergence_curve
@@ -116,7 +117,7 @@ def island_genetic_algorithm(problem, population_size, generations, crossover_ra
 
 
 if __name__ == "__main__":
-    numbers = [random.randint(1, 100) for _ in range(9)]
+    numbers = [random.randint(1, 100) for _ in range(15)]
     problem = ThreePartitionProblem(numbers)
     best_solution, best_value, convergence_curve = island_genetic_algorithm(problem, population_size=100,
                                                                             generations=1000, crossover_rate=0.7,
@@ -128,4 +129,4 @@ if __name__ == "__main__":
                                                                             migration_rate=2)
     print("Best Solution:", best_solution)
     print("Best Objective Value:", best_value)
-    print("Convergence Curve:", convergence_curve)
+    #print("Convergence Curve:", convergence_curve)

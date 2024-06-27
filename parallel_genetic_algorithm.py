@@ -67,13 +67,14 @@ def genetic_algorithm_parallel(problem, population_size, generations, crossover_
         else:
             no_improvement += 1
 
-        if termination_method == "no_improvement" and no_improvement >= 100:
+        if (termination_method == "no_improvement" and no_improvement >= 100) or \
+                (termination_method == "generations" and generation >= generations - 1):
             break
 
     return best_solution, best_value
 
 
-if __name__ == "__main__":
+def main():
     numbers = [random.randint(1, 100) for _ in range(9)]
     problem = ThreePartitionProblem(numbers)
     best_solution, best_value = genetic_algorithm_parallel(problem, population_size=50, generations=1000,
@@ -82,3 +83,6 @@ if __name__ == "__main__":
                                                            termination_method="generations")
     print("Best Solutions:", best_solution)
     print("Best Objective Value:", best_value)
+
+if __name__ == "__main__":
+    main()

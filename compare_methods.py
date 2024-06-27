@@ -18,20 +18,15 @@ def run_experiment(method, problem, *args):
     start_time = time.time()
 
     if method == "brute_force":
-        solution, value = brute_force(problem)
-        convergence_curve = [value]
+        solution, value, convergence_curve = brute_force(problem)
     elif method == "hill_climbing":
-        solution, value = hill_climbing(problem)
-        convergence_curve = [value]
+        solution, value, convergence_curve = hill_climbing(problem)
     elif method == "hill_climbing_random":
-        solution, value = hill_climbing_random(problem)
-        convergence_curve = [value]
+        solution, value, convergence_curve = hill_climbing_random(problem)
     elif method == "tabu_search":
-        solution, value = tabu_search(problem, *args)
-        convergence_curve = [value]
+        solution, value, convergence_curve = tabu_search(problem, *args)
     elif method == "simulated_annealing":
-        solution, value = simulated_annealing(problem, *args)
-        convergence_curve = [value]
+        solution, value, convergence_curve = simulated_annealing(problem, *args)
     elif method == "genetic_algorithm":
         solution, value, convergence_curve = genetic_algorithm(problem, *args)
     elif method == "parallel_genetic_algorithm":
@@ -56,7 +51,7 @@ def compare_methods():
     methods = {
         "brute_force": (),
         "hill_climbing": (),
-        "hill_climbing_random": (),
+        #"hill_climbing_random": (),
         "tabu_search": (10, 100),
         "simulated_annealing": (100, 0.99, 0.1, 1000),
         "genetic_algorithm": (50, 1000, 0.7, 0.1, 5, "one_point", "swap", "generations"),

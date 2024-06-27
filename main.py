@@ -18,11 +18,11 @@ def parse_args():
                                               'simulated_annealing', 'genetic_algorithm', 'parallel_genetic_algorithm',
                                               'island_genetic_algorithm'],
                         help='Algorytmy do rozwiazania problemu')
-    parser.add_argument('--file', type=str, required=False, help="Sciezka do pliku zawierajacy liczby")
+    parser.add_argument('--file', type=str, help="Sciezka do pliku zawierajacy liczby")
     parser.add_argument('--seed', type=int, default=None, help="Losowe ziarno")
     parser.add_argument('--tabu_size', type=int, default=10, help="Rozmiar listy tabu")
     parser.add_argument('--max_iterations', type=int, default=100, help="Liczba iteracji")
-    parser.add_argument('--intial_temperature', type=float, default=100, help="Temperatura inicjująca")
+    parser.add_argument('--initial_temperature', type=float, default=100, help="Temperatura inicjująca")
     parser.add_argument('--cooling_rate', type=float, default=0.99, help="Stopien chlodzenia")
     parser.add_argument('--min_temperature', type=float, default=0.1, help="Minimalna temperatura")
     parser.add_argument('--population_size', type=int, default=50, help="Rozmiar populacji")
@@ -41,7 +41,8 @@ def parse_args():
 
 def load_numbers(file_path):
     with open(file_path, 'r') as f:
-        numbers = [int(line.strip()) for line in f]
+        line = f.readline().strip()
+        numbers = [int(num) for num in line.split(',')]
     return numbers
 
 
@@ -51,30 +52,34 @@ def main():
     if args.seed is not None:
         random.seed(args.seed)
 
-    numbers = load_numbers(args.file)
+    if args.file:
+        numbers = load_numbers(args.file)
+    else:
+        numbers = [random.randint(1, 100) for _ in range(9)]
+
     problem = ThreePartitionProblem(numbers)
 
     if args.algorithm == 'brute_force':
-        solution, value = brute_force(problem)
+        solution, value, convergence_curve = brute_force(problem)
     elif args.algorithm == 'hill_climbing':
-        solution, value = hill_climbing(problem)
+        solution, value, convergence_curve = hill_climbing(problem)
     elif args.algorithm == 'hill_climbing_random':
-        solution, value = hill_climbing_random(problem)
+        solution, value, convergence_curve = hill_climbing_random(problem)
     elif args.algorithm == 'tabu_search':
-        solution, value = tabu_search(problem, args.tabu_sice, args.max_iterations)
+        solution, value, convergence_curve = tabu_search(problem, args.tabu_sice, args.max_iterations)
     elif args.algorithm == 'simulated_annealing':
-        solution, value = simulated_annealing(problem, args.initial_temperature, args.cooling_rate, args.min_temperature, args.max_iterations)
+        solution, value, convergence_curve = simulated_annealing(problem, args.initial_temperature, args.cooling_rate, args.min_temperature, args.max_iterations)
     elif args.algorithm == 'genetic_algorithm':
-        solution, value = genetic_algorithm(problem, args.population_size, args.generations, args.crossover_rate,
+        solution, value, convergence_curve = genetic_algorithm(problem, args.population_size, args.generations, args.crossover_rate,
                                             args.mutation_rate, args.elite_size, args.crossover_method,
                                             args.mutation_method, args.termination_method)
     elif args.algorithm == 'parallel_genetic_algorithm':
-        solution, value = genetic_algorithm_parallel(problem, args.population_size, args.generations,
+        solution, value, convergence_curve = genetic_algorithm_parallel(problem, args.population_size, args.generations,
                                                       args.crossover_rate, args.mutation_rate, args.elite_size,
                                                       args.crossover_method, args.mutation_method,
                                                       args.termination_method)
     elif args.algorithm == 'island_genetic_algorithm':
-        solution, value = island_genetic_algorithm(problem, args.population_size, args.generations,
+        solution, value, convergence_curve = island_genetic_algorithm(problem, args.population_size, args.generations,
                                                    args.crossover_rate, args.mutation_rate, args.elite_size,
                                                    args.crossover_method, args.mutation_method,
                                                    args.termination_method, args.num_islands, args.migration_interval,

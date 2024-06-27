@@ -10,6 +10,7 @@ def tabu_search(problem, tabu_size, max_iterations):
     best_objective_value = current_objective_value
 
     tabu_list = []
+    convergence_curve = []
 
     for _ in range(max_iterations):
         neighbors = problem.get_neighborhood(current_solution)
@@ -26,15 +27,17 @@ def tabu_search(problem, tabu_size, max_iterations):
                 break
 
         tabu_list.append(current_solution)
-        if len(tabu_list) > tabu_size:
+        if 0 < tabu_size < len(tabu_list):
             tabu_list.pop(0)
 
-    return best_solution, best_objective_value
+        convergence_curve.append(best_objective_value)
+
+    return best_solution, best_objective_value, convergence_curve
 
 
 if __name__ == "__main__":
-    numbers = [random.randint(1, 100) for _ in range(9)]
+    numbers = [random.randint(1, 100) for _ in range(12)]
     problem = ThreePartitionProblem(numbers)
-    best_solution, best_objective_value = tabu_search(problem, tabu_size=10, max_iterations=100)
+    best_solution, best_objective_value, convergence_curve = tabu_search(problem, tabu_size=10, max_iterations=100)
     print("Best Solution:", best_solution)
     print("Best Objective Value:", best_objective_value)

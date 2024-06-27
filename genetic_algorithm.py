@@ -9,7 +9,7 @@ def one_point_crossover(parent1, parent2):
     return child1, child2
 
 
-def two_point_crossover(parent1,parent2):
+def two_point_crossover(parent1, parent2):
     point1, point2 = sorted(random.sample(range(1, len(parent1)), 2))
     child1 = parent1[:point1] + parent2[point1:point2] + parent1[point2:]
     child2 = parent2[:point1] + parent1[point1:point2] + parent2[point2:]
@@ -87,18 +87,23 @@ def genetic_algorithm(problem, population_size, generations, crossover_rate, mut
 
         convergence_curve.append(best_value)
 
-        if termination_method == "no_improvement" and no_improvement >= 100:
+        if (termination_method == "no_improvement" and no_improvement >= 100) or \
+                (termination_method == "generations" and generation >= generations -1):
             break
 
     return best_solution, best_value, convergence_curve
 
 
 if __name__ == "__main__":
-    numbers = [random.randint(1, 100) for _ in range(9)]
+    numbers = [random.randint(1, 100) for _ in range(15)]
     problem = ThreePartitionProblem(numbers)
-    best_solution, best_value, convergence_curve = genetic_algorithm(problem, population_size=50, generations=1000, crossover_rate=0.7, mutation_rate=0.1, elite_size=5, crossover_method="one_point", mutation_method="swap", termination_method="generations")
+    best_solution, best_value, convergence_curve = genetic_algorithm(problem, population_size=50, generations=1000,
+                                                                     crossover_rate=0.7, mutation_rate=0.1, elite_size=5,
+                                                                     crossover_method="one_point", mutation_method="swap",
+                                                                     termination_method="generations")
     print("Best Solutions:", best_solution)
     print("Best Objective Value:", best_value)
+
 
 
 
