@@ -100,7 +100,7 @@ if __name__ == "__main__":
     best_solution, best_value, convergence_curve = genetic_algorithm(problem, population_size=50, generations=1000,
                                                                      crossover_rate=0.7, mutation_rate=0.1, elite_size=5,
                                                                      crossover_method="one_point", mutation_method="swap",
-                                                                     termination_method="generations")
+                                                                     termination_method="no_improvement")
     print("Best Solutions:", best_solution)
     print("Best Objective Value:", best_value)
 

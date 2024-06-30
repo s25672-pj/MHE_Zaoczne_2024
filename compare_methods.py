@@ -45,18 +45,18 @@ def run_experiment(method, problem, *args):
 
 
 def compare_methods():
-    numbers = [random.randint(1, 100) for _ in range(9)]
+    numbers = [random.randint(1, 100) for _ in range(18)]
     problem = ThreePartitionProblem(numbers)
 
     methods = {
-        "brute_force": (),
+        #"brute_force": (),
         "hill_climbing": (),
         #"hill_climbing_random": (),
         "tabu_search": (10, 100),
         "simulated_annealing": (100, 0.99, 0.1, 1000),
-        "genetic_algorithm": (50, 1000, 0.7, 0.1, 5, "one_point", "swap", "generations"),
+        "genetic_algorithm": (50, 1000, 0.7, 0.1, 5, "one_point", "swap", "no_improvement"),
         #"parallel_genetic_algorithm": (50, 1000, 0.7, 0.1, 5, "one_point", "swap", "generations"),
-        "island_genetic_algorithm": (100, 1000, 0.7, 0.1, 5, "one_point", "swap", "generations", 5, 10, 2)
+        "island_genetic_algorithm": (100, 1000, 0.7, 0.1, 5, "one_point", "swap", "no_improvement", 5, 10, 2)
     }
 
     results = []

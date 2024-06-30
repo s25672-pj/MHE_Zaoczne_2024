@@ -66,7 +66,7 @@ def main():
     elif args.algorithm == 'hill_climbing_random':
         solution, value, convergence_curve = hill_climbing_random(problem)
     elif args.algorithm == 'tabu_search':
-        solution, value, convergence_curve = tabu_search(problem, args.tabu_sice, args.max_iterations)
+        solution, value, convergence_curve = tabu_search(problem, args.tabu_size, args.max_iterations)
     elif args.algorithm == 'simulated_annealing':
         solution, value, convergence_curve = simulated_annealing(problem, args.initial_temperature, args.cooling_rate, args.min_temperature, args.max_iterations)
     elif args.algorithm == 'genetic_algorithm':
